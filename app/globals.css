@@ -1,0 +1,217 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #f8f9fa;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #da100c;
+  --primary-foreground: #ffffff;
+  --secondary: #00e5ff;
+  --secondary-foreground: #000000;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ff0000;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #da100c;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #da100c;
+  --primary-foreground: #ffffff;
+  --secondary: #00e5ff;
+  --secondary-foreground: #000000;
+  --muted: #111111;
+  --muted-foreground: #a1a1aa;
+  --accent: #111111;
+  --accent-foreground: #ffffff;
+  --destructive: #ff0000;
+  --destructive-foreground: #ffffff;
+  --border: #333333;
+  --input: #111111;
+  --ring: #da100c;
+}
+
+@theme inline {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    cursor: none !important;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+}
+
+/* Performance fallback: respect reduced-motion and disable heavy animation paths */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .crt-overlay,
+  .cyber-grid,
+  .glitch-text::before,
+  .glitch-text::after {
+    display: none !important;
+  }
+}
+
+/* Animations */
+@keyframes glitch-anim {
+  0% { clip-path: inset(80% 0 0 0); transform: translate(-2px, 2px); }
+  10% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); }
+  20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
+  30% { clip-path: inset(40% 0 40% 0); transform: translate(2px, -2px); }
+  40% { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 2px); }
+  50% { clip-path: inset(20% 0 80% 0); transform: translate(2px, -2px); }
+  60% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
+  70% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); }
+  80% { clip-path: inset(40% 0 40% 0); transform: translate(-2px, 2px); }
+  90% { clip-path: inset(60% 0 20% 0); transform: translate(2px, -2px); }
+  100% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 2px); }
+}
+
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(218, 16, 12, 0.25), 0 0 28px rgba(0, 229, 255, 0.14); }
+  50% { box-shadow: 0 0 20px rgba(218, 16, 12, 0.35), 0 0 42px rgba(0, 229, 255, 0.2); }
+}
+
+@keyframes gridShift {
+  from { background-position: 0 0; }
+  to { background-position: 0 40px; }
+}
+
+@keyframes float3d {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50% { transform: translateY(-10px) translateX(-50%); }
+}
+
+.floating-bottom-nav {
+  animation: float3d 4s ease-in-out infinite;
+}
+
+/* Utilities */
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-text::before {
+  color: #00e5ff;
+  z-index: -1;
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  color: #da100c;
+  z-index: -2;
+  animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+.neon-panel {
+  border: 1px solid rgba(218, 16, 12, 0.5);
+  background: rgba(10, 10, 10, 0.85);
+  box-shadow: 0 8px 40px rgba(218, 16, 12, 0.1), inset 0 0 24px rgba(0, 229, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.neon-border {
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2), inset 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+.cyber-grid {
+  background-image:
+    linear-gradient(to right, rgba(218, 16, 12, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(218, 16, 12, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridShift 8s linear infinite;
+}
+
+.h2f-gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.h2f-red-gradient {
+  background: linear-gradient(135deg, #da100c 0%, #ff4b4b 100%);
+}
+
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.15;
+}
